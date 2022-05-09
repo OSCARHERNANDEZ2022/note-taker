@@ -1,11 +1,17 @@
-const { notes } = require("./Develop/public/notes.json");
 const express = require("express");
+const apiRoutes = require("./routes/apiRoutes");
+const htmlRoutes = require("./routes/htmlRoutes");
+
+//  create port
 const app = express();
+const PORT = process.env.port || 8000;
 
-app.get("/api/notes", (req, res) => {
-  res.send("");
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use("/api", apiRoutes);
+app.use("/", htmlRoutes);
 
-app.listen(3002, () => {
-  console.log(`API server now on port 3002!`);
-});
+// Start server on the port
+
+app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
